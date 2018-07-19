@@ -6,7 +6,7 @@ extern "C" int kmain() {
 
   using namespace kos::io;
   vga_buffer<> vga;
-  vga << "Hello, welcome to kOS! This is a 64-bit OS, in C++17.";
+  vga << "Hello, welcome to kOS. This is a 64-bit OS, in C++17.";
 
   return 0;
 }
