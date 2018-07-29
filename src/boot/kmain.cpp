@@ -1,12 +1,18 @@
 #include <kos/io/vga.hpp>
+#include <kos/boot/multiboot.hpp>
 
-extern "C" int kmain() {
+
+namespace kos::boot {
+
+extern "C" int kmain(multiboot_information* ) {
   // Welcome, to kOS.
-  
-
   using namespace kos::io;
   vga_buffer<> vga;
-  vga << "Hello, welcome to kOS. This is a 64-bit OS, in C++17.";
+  vga << "Hello! Welcome to kOS.\n" 
+      << "This is a 64-bit OS, in C++17.\n\n"
+      << "// Emil Gedda.";
 
   return 0;
 }
+
+} // namespace kos::boot

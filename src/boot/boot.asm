@@ -15,12 +15,13 @@ header_start:
 header_end:
 
 
+section .text
 global _start
 extern long_mode
-section .text
 bits 32
 _start:
     mov esp, stack_top
+    push ebx
 
     call check_multiboot
     call check_cpuid
@@ -34,10 +35,6 @@ _start:
 
     ; we have a lift off
     jmp gdt64.code:long_mode 
-    ; print `OK` to screen
-    mov dword [0xb8000], 0x2f4b2f4f
-    hlt
-
 
 
 check_multiboot:

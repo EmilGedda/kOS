@@ -8,13 +8,13 @@ SECTIONS
 	/* This is because memory below 1 Megabyte is reserved for other x86-related things, so we can't use it */
 	. = 1M;
  
-	.boot :
+	.boot BLOCK(4K) : ALIGN(4K)
 	{
 		*(.multiboot)
 	}
  
 	/* Executable code */
-	.text :
+	.text : ALIGN(4K)
 	{
 		*(.text)
 	}
