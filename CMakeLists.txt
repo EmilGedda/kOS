@@ -10,14 +10,19 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
 # kmain
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/boot")
 
-
-add_custom_target(kos_iso ALL
+add_custom_command(
+    OUTPUT "kos.elf"
     COMMAND ${CMAKE_LINKER} -o kos.elf -n -T${LINKER_FILE} $<TARGET_FILE:boot> $<TARGET_FILE:kmain>
+    DEPENDS kmain boot
+)
+
+add_custom_target(kos_elf ALL DEPENDS "kos.elf")
+
+add_custom_command(
+    OUTPUT "kos.iso"
     COMMAND cp -f kos.elf ../iso/boot/kos.elf
     COMMAND grub-mkrescue -o kos.iso ../iso
-    DEPENDS boot kmain
+    DEPENDS "kos.elf"
 )
 
-set_target_properties(kos_iso PROPERTIES 
-    OUTPUT_NAME "kos.iso"
-)
+add_custom_target(kos_iso ALL DEPENDS "kos.iso" )

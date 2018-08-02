@@ -8,9 +8,8 @@ extern "C" int kmain(multiboot_information* ) {
   // Welcome, to kOS.
   using namespace kos::io;
   vga_buffer<> vga;
-  vga << "Hello! Welcome to kOS.\n" 
-      << "This is a 64-bit OS, in C++17.\n\n"
-      << "// Emil Gedda.";
+  vga << "Hello, welcome to kOS.\n" 
+      << "This is a 64-bit OS, in C++17.\n";
 
   return 0;
 }
