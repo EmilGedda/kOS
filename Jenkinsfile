@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Checkout source') {
             steps {
-                checkout scm
+                sh '''ls .'''
             }
         }
     }
