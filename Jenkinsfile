@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Generate build system') {
             steps {
-                sh '''cd build && CC=clang cmake ..'''
+                sh '''mkdir build && cd build && CC=clang cmake ..'''
             }
         }
         stage('Building kos.iso') {
