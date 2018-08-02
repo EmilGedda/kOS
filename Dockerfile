@@ -13,6 +13,7 @@ RUN apk update && apk add   \
         musl-dev            \
         nasm                \
         grub                \
+        openjdk8-jre        \
         xorriso
 
 RUN ln -s /usr/lib/libstdc++.so.6 /usr/lib/libstdc++.so
