@@ -13,6 +13,7 @@ RUN apk update && apk add   \
         musl-dev            \
         nasm                \
         grub                \
+        procps              \
         openjdk8-jre        \
         xorriso
 

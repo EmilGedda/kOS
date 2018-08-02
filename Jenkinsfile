@@ -5,9 +5,14 @@ pipeline {
         label 'docker-kos'
     }
     stages {
-        stage('Checkout source') {
+        stage('Generate build system') {
             steps {
-                sh '''ls .'''
+                sh '''cd build && CC=clang cmake ..'''
+            }
+        }
+        stage('Building kos.iso') {
+            steps {
+                sh '''make kos.iso'''
             }
         }
     }
