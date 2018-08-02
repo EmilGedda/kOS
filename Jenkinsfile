@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Building kos.iso') {
             steps {
-                sh '''make'''
+                sh '''cd build && make'''
             }
         }
     }
