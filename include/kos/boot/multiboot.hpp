@@ -4,7 +4,7 @@
 namespace kos::boot {
 
   struct multiboot_information {
-    u8 bmi_type;
+    u32 total_size;
   };
 
 }

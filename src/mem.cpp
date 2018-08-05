@@ -22,9 +22,10 @@ namespace kos::mem {
     char* _dst = reinterpret_cast<char*>(dst);
     char value = c; 
 
-      while(n-- > 0)
-        *_dst++ = value;
+    while(n-- > 0)
+      *_dst++ = value;
 
     return dst;
   }
+
 }
