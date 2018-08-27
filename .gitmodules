@@ -1,3 +1,6 @@
 [submodule "third_party/musl"]
 	path = third_party/musl
 	url = git://git.musl-libc.org/musl
+[submodule "third_party/doctest"]
+	path = third_party/doctest
+	url = https://github.com/onqtam/doctest
