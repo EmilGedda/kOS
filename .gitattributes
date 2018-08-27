@@ -1,2 +1,3 @@
 std/type_traits linguist-language=C++
+std/cstddef linguist-language=C++
 std/CMakeLists.txt linguist-language=CMake
