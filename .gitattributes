@@ -1,0 +1,2 @@
+src/* linguist-language=C++
+src/CMakeLists.txt linguist-language=CMake
