@@ -6,4 +6,6 @@ add_library(kernel STATIC
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/io")
 #add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/string")
 
+target_include_directories(kernel PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+target_compile_options(kernel PUBLIC ${KERNEL_FLAGS})
 target_link_libraries(kernel PRIVATE io)

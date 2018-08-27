@@ -6,6 +6,8 @@ add_library(kmain STATIC
     "${CMAKE_CURRENT_SOURCE_DIR}/kmain.cpp"
 )
 
+target_compile_options(kmain PUBLIC ${KERNEL_FLAGS})
+
 add_library(boot 
     "${CMAKE_CURRENT_SOURCE_DIR}/boot.asm"
     "${CMAKE_CURRENT_SOURCE_DIR}/longmode.asm"

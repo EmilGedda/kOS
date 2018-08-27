@@ -1,14 +1,20 @@
 cmake_minimum_required(VERSION 3.10)
 project(kOS C CXX)
 
-set(CMAKE_CXX_FLAGS "--target=x86_64-pc-none-elf -std=c++2a -march=native -Os -Wall -Wextra -Weffc++ -ffreestanding -nostdlib -fno-builtin -fno-exceptions -fno-rtti -mno-sse -g")
+set(KERNEL_FLAGS --target=x86_64-pc-none-elf -std=c++2a -march=native -Os -Wall -Wextra -Weffc++ -ffreestanding -nostdlib -fno-exceptions -fno-rtti -mno-sse -g)
+
+# stdlib
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/std")
 
 # libkernel
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include") # TODO: fix this
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # kmain
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/boot")
+
+# tests
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 add_custom_command(
     OUTPUT "kos.elf"
