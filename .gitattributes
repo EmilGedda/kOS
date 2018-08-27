@@ -1,2 +1,2 @@
-std/* linguist-language=C++
+std/type_traits linguist-language=C++
 std/CMakeLists.txt linguist-language=CMake
