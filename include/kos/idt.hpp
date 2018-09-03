@@ -16,11 +16,6 @@ namespace kos::interrupts {
     RING3
   };
 
-  struct segment_selector {
-    privilege_level level : 3 = RING0;
-    u16 index : 13 = 0;
-  };
-
   struct idt_options {
     u8 stack_table_index  : 3 = 0;
     u8 reserved           : 5 = 0;
@@ -37,34 +32,32 @@ namespace kos::interrupts {
 
   struct idt_entry {
     u16 lower_funptr = 0;
-    segment_selector gdt_selector{};
+    u16 segment_selector = 0;
     idt_options options{};
     u16 middle_funptr = 0;
     u32 upper_funptr = 0;
     u32 reserved = 0; // vendor reserved
 
-   // idt_options& set_handler()
+    void set_handler(interrupt_handler handler);
   };
-
-
-  static idt_entry idt[16]{};
 
   struct idtr {
-    const u16 limit = sizeof(idt)*8-1;
-    const idt_entry* base = &idt[0];
+    u16 limit = 0;
+    idt_entry* base = nullptr;
   };
+#pragma pack(pop)
+
+  static idt_entry idt[16];
 
   template<size_t N>
     void load_idt(idt_entry (&interrupt_table)[N]) {
       idtr descriptor = {N*sizeof(idt_entry)-1, &interrupt_table[0]};
       __asm__ volatile("lidt (%0)"
-              : : "r" (&descriptor));
+          : : "r" (&descriptor));
     }
-#pragma pack(pop)
 
   u16 current_code_segment();
 
-  static_assert(sizeof(segment_selector) == 2);
   static_assert(sizeof(idt_options) == 2);
   static_assert(sizeof(idt_entry) == 16);
 
