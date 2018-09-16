@@ -8,4 +8,4 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/io")
 
 target_include_directories(kernel PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../include")
 target_compile_options(kernel PUBLIC ${KERNEL_FLAGS})
-target_link_libraries(kernel PRIVATE io)
+target_link_libraries(kernel PUBLIC cxx_static cxxabi_static unwind_static)

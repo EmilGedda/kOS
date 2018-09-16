@@ -7,8 +7,8 @@ namespace kos::mem {
 
   using namespace kos;
 
-  extern "C" void* memcpy(void* src, const void* dst, size_t n);
-  extern "C" void* memset(void* src, int c, size_t n);
+//  extern "C" void* memcpy(void* __restrict src, const void* __restrict dst, size_t n);
+//  extern "C" void* memset(void* src, int c, size_t n) _THROW;
 
   using PhysicalAddress = void*;
   using VirtualAddress  = void*;

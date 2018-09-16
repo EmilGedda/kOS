@@ -2,6 +2,10 @@
 #include <kos/mem.hpp>
 #include <kos/boot/multiboot.hpp>
 #include <kos/idt.hpp>
+#include <array>
+#include <algorithm>
+#include <numeric>
+#include <optional>
 
 using namespace kos::io;
 
@@ -14,7 +18,7 @@ __attribute__((interrupt)) void breakpoint_handler(kos::interrupts::interrupt_ex
 
 namespace kos::boot {
 
-extern "C" int kmain(multiboot_information* ) {
+extern "C" int kmain(multiboot_information*) {
 
 
   vga << "Booting kOS... \n"
@@ -27,7 +31,23 @@ extern "C" int kmain(multiboot_information* ) {
   
   __asm__ volatile("int3");
 
+  try {
+    vga << "Throwing exception...\n";
+    throw 1;
+  } catch(float) {
+    vga << "Should not catch float\n";
+  } catch(int x) {
+    vga << "Caught " << typeid(x).name() << "\n";
+  }
   vga << "Successfully booted kOS.\n";
+  std::array<char, 3> tmp = {'!', '!', '!'};
+  std::for_each(std::begin(tmp), std::end(tmp), 
+      [](auto val) {
+        char str[2] = {val, 0x00};
+        return vga << str;
+      });
+  std::optional<int> opt = 0;
+  std::optional<int> opt2 = std::nullopt;
   return 0;
 }
 

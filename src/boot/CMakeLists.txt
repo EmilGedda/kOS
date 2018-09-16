@@ -7,6 +7,7 @@ add_library(kmain STATIC
 )
 
 target_compile_options(kmain PUBLIC ${KERNEL_FLAGS})
+target_link_libraries(kmain PUBLIC kernel)
 
 add_library(boot 
     "${CMAKE_CURRENT_SOURCE_DIR}/boot.asm"

@@ -1,5 +1,6 @@
 global long_mode
 extern kmain
+default rel
 
 section .text
 bits 64
