@@ -10,8 +10,8 @@
 
 #define _ALIAS(TYPE, SIZE) \
   static_assert(sizeof(TYPE)*8 == SIZE, "Specified size for type alias does not match the size of the given type"); \
-  __ALIAS(u, SIZE, ) = TYPE; \
-  __ALIAS(s, SIZE, ) = TYPE; \
+  __ALIAS(u, SIZE, ) = unsigned TYPE; \
+  __ALIAS(s, SIZE, ) = signed   TYPE; \
   __CSTDINT(u, SIZE, unsigned TYPE); \
   __CSTDINT( , SIZE, signed   TYPE)
 

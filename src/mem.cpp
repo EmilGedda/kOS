@@ -44,6 +44,26 @@ namespace kos::mem {
     return dst;
   }
 
+  void *memmove(void *dest, const void *src, size_t count)
+  {
+      auto d = static_cast<char*>(dest);
+      auto s = static_cast<char const*>(src);
+
+      // If s and d are in distinct objects, the comparison is
+      // unspecified behaviour, but either branch will work.
+      if (s < d) {
+          s += count;
+          d += count;
+          while (count--)
+              *--d = *--s;
+      } else {
+          while (count--)
+              *d++ = *s++;
+      }
+
+      return dest;
+  }
+
 } // namespace kos::mem
 
 }

@@ -1,4 +1,5 @@
 #include <kos/io/vga.hpp>
+#include <kos/io/uart.hpp>
 #include <kos/mem.hpp>
 #include <kos/boot/multiboot.hpp>
 #include <kos/idt.hpp>
@@ -8,6 +9,7 @@
 #include <optional>
 
 using namespace kos::io;
+using namespace kos::io::serial;
 
 vga_buffer<> vga;
 
@@ -20,7 +22,6 @@ namespace kos::boot {
 
 extern "C" int kmain(multiboot_information*) {
 
-
   vga << "Booting kOS... \n"
       << "Loading interrupts...\n";
 
@@ -29,16 +30,16 @@ extern "C" int kmain(multiboot_information*) {
 
   vga << "Triggering interrupt...\n";
   
-  __asm__ volatile("int3");
+  //__asm__ volatile("int3");
 
-  try {
-    vga << "Throwing exception...\n";
-    throw 1;
-  } catch(float) {
-    vga << "Should not catch float\n";
-  } catch(int x) {
-    vga << "Caught " << typeid(x).name() << "\n";
-  }
+  //try {
+  //  vga << "Throwing exception...\n";
+  //  throw 1;
+  //} catch(float) {
+  //  vga << "Should not catch float\n";
+  //} catch(int x) {
+  //  vga << "Caught " << typeid(x).name() << "\n";
+  //}
   vga << "Successfully booted kOS.\n";
   std::array<char, 3> tmp = {'!', '!', '!'};
   std::for_each(std::begin(tmp), std::end(tmp), 
@@ -48,7 +49,7 @@ extern "C" int kmain(multiboot_information*) {
       });
   std::optional<int> opt = 0;
   std::optional<int> opt2 = std::nullopt;
-  return 0;
+  return !opt2 ? *opt : 0;
 }
 
 } // namespace kos::boot
