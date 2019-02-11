@@ -67,8 +67,6 @@ target_compile_definitions(cxx_static PUBLIC -D__ELF__)
 target_compile_definitions(cxxabi_objects PRIVATE -D__ELF__)
 target_compile_definitions(unwind_objects PRIVATE -D__ELF__)
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/third_party/fmt")
-
 # libkernel
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_compile_options(kernel PUBLIC -include ${LIBCXX_CONFIG})
