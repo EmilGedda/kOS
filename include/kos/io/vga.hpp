@@ -69,6 +69,10 @@ class vga_buffer {
     auto begin() {
       return address;
     }
+
+    auto current() {
+      return begin() + offset;
+    }
     
     auto end() {
       return address + 80 * 25;
@@ -101,6 +105,28 @@ constexpr vga_buffer<ptr>& operator<<(vga_buffer<ptr>& vga, const char * str) {
   unsigned short color = vga.background << 4 | vga.foreground;
   while(*str != '\0')
     vga.write(color << 8  | *str++);
+  vga.update_cursor();
+  return vga;
+}
+
+template<size_t ptr, typename T>
+constexpr vga_buffer<ptr>& operator<<(vga_buffer<ptr>& vga, const T* obj) {
+  unsigned short color = vga.background << 4 | vga.foreground;
+  u64 address = reinterpret_cast<u64>(obj);
+  auto length = 0;
+  char buffer[16] = {0x00};
+  vga << "0x";
+
+  while(address != 0) {
+    auto rem = address % 16;
+    address /= 16;
+    buffer[length] = rem < 10 ? rem + '0' : rem  + ('A' - 10);
+    length++;
+  }
+
+  for(auto i = length - 1; i >= 0; i--)
+    vga.write(color << 8 | buffer[i]);
+
   vga.update_cursor();
   return vga;
 }

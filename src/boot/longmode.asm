@@ -13,7 +13,6 @@ long_mode:
     mov fs, ax
     mov gs, ax
 
-    pop rcx
     call kmain ; ret?
 
     hlt

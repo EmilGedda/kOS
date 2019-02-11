@@ -30,6 +30,9 @@ _start:
     call set_up_page_tables
     call enable_paging
 
+    pop ebx
+    mov edi, ebx
+
     ; load the 64-bit GDT
     lgdt [gdt64.pointer]
 
@@ -170,6 +173,6 @@ p3_table:
 p2_table:
 	resb 4096
 
-stack_bottom: ; Reserve space for a small 4K stack.
-	resb 4096
+stack_bottom: ; Reserve space for a small 16K stack. (4 pages)
+	resb 4096 * 4
 stack_top:

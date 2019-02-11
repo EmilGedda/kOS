@@ -41,6 +41,9 @@ extern "C" int kmain(multiboot_information*) {
   //  vga << "Caught " << typeid(x).name() << "\n";
   //}
   vga << "Successfully booted kOS.\n";
+  int* x = reinterpret_cast<int*>(0xDEADBEEF);
+  vga << x << "\n";
+
   std::array<char, 3> tmp = {'!', '!', '!'};
   std::for_each(std::begin(tmp), std::end(tmp), 
       [](auto val) {
