@@ -1,21 +1,37 @@
-FROM alpine:3.8
+FROM archlinux/base:latest as dev
 
 MAINTAINER Emil Gedda
 
-RUN apk update && apk add   \
-        qemu-system-x86_64  \
+RUN pacman -Syu --noconfirm \
         cmake               \
         clang               \
         git                 \
         make                \
         binutils            \
         gcc                 \
-        musl-dev            \
         nasm                \
         grub                \
-        procps              \
-        openjdk8-jre        \
-        xorriso
+        mtools              \
+        python              \
+        libisoburn
 
-RUN ln -s /usr/lib/libstdc++.so.6 /usr/lib/libstdc++.so
-ENTRYPOINT /bin/sh
+WORKDIR /root
+ENTRYPOINT /bin/bash
+
+
+FROM dev as build
+WORKDIR /kos
+COPY . /kos
+RUN mkdir build \
+        && cd build \
+        && CC=clang CXX=clang++ cmake .. \
+        && make cxx-generated-config \
+        && make kos_iso
+ENTRYPOINT /bin/bash
+
+
+FROM alpine:latest as run
+RUN apk update && apk add qemu-system-x86_64 qemu-ui-curses
+COPY --from=build /kos/build/kos.iso /kos.iso
+WORKDIR /
+ENTRYPOINT qemu-system-x86_64 -nographic -display curses -cdrom kos.iso

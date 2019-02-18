@@ -1,0 +1,5 @@
+.git
+build
+third_party/libcxx/test/std/input.output/filesystems/Inputs/static_test_env/bad_symlink 
+Dockerfile
+

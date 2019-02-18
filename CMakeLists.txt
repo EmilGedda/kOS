@@ -20,7 +20,7 @@ option(LIBCXX_ABI_FORCE_ITANIUM "Ignore auto-detection and force use of the Itan
 
 option(LIBCXXABI_ENABLE_ASSERTIONS "Enable assertions independent of build mode." OFF)
 option(LIBCXXABI_USE_LLVM_UNWINDER "Build and use the LLVM unwinder." ON)
-#option(LIBCXXABI_ENABLE_STATIC_UNWINDER "Statically link the LLVM unwinder." ON)
+option(LIBCXXABI_ENABLE_STATIC_UNWINDER "Statically link the LLVM unwinder." ON)
 option(LIBCXXABI_USE_COMPILER_RT "Use compiler-rt instead of libgcc" ON)
 option(LIBCXX_USE_COMPILER_RT "Use compiler-rt instead of libgcc" ON)
 option(LIBCXXABI_ENABLE_THREADS "Build with threads enabled" OFF)

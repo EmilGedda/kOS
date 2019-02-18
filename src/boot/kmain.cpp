@@ -20,7 +20,8 @@ __attribute__((interrupt)) void breakpoint_handler(kos::interrupts::interrupt_ex
 
 namespace kos::boot {
 
-extern "C" int kmain(multiboot_information*) {
+extern "C" int kmain(u32*) {
+  int dummy = 0;
 
   vga << "Booting kOS... \n"
       << "Loading interrupts...\n";
@@ -41,8 +42,8 @@ extern "C" int kmain(multiboot_information*) {
   //  vga << "Caught " << typeid(x).name() << "\n";
   //}
   vga << "Successfully booted kOS.\n";
-  int* x = reinterpret_cast<int*>(0xDEADBEEF);
-  vga << x << "\n";
+  vga << "kmain entry point: " << reinterpret_cast<u64*>(&kmain) << "\n";
+  vga << "Stack address entry point: " << reinterpret_cast<u64*>(&dummy) << "\n";
 
   std::array<char, 3> tmp = {'!', '!', '!'};
   std::for_each(std::begin(tmp), std::end(tmp), 
