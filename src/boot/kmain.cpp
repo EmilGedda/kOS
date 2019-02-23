@@ -21,10 +21,10 @@ __attribute__((interrupt)) void breakpoint_handler(kos::interrupts::interrupt_ex
 namespace kos::boot {
 
   extern "C" int kmain(u32*) {
-    int              dummy = 0;
+    int dummy = 0;
 
     physical_address p(0x12u);
-    virtual_address a(0x11u);
+    virtual_address  a(0x11u);
 
     vga << "Booting kOS... \n"
         << "Loading interrupts...\n";

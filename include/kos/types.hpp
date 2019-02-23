@@ -39,15 +39,13 @@ namespace kos {
         , ts::strong_typedef_op::mixed_equality_comparison<pointer<Tag>, u64>
         , ts::strong_typedef_op::bitmask<pointer<Tag>>
         , ts::strong_typedef_op::bitshift<pointer<Tag>, u64>
-        , ts::strong_typedef_op::unary_plus<pointer<Tag>>
-        , ts::strong_typedef_op::unary_minus<pointer<Tag>>
         , ts::strong_typedef_op::addition<pointer<Tag>>
         , ts::strong_typedef_op::mixed_addition<pointer<Tag>, u64>
         , ts::strong_typedef_op::subtraction<pointer<Tag>>
         , ts::strong_typedef_op::mixed_subtraction<pointer<Tag>, u64>
         , ts::strong_typedef_op::increment<pointer<Tag>>
         , ts::strong_typedef_op::decrement<pointer<Tag>> {
-      using ts::strong_typedef<pointer<Tag>,u64>::strong_typedef;
+      using ts::strong_typedef<pointer<Tag>, u64>::strong_typedef;
 
       explicit operator bool() const noexcept {
         return static_cast<u64>(*this) != 0;
@@ -59,6 +57,12 @@ namespace kos {
 
     using physical_address = pointer<physical_address_tag>;
     using virtual_address  = pointer<virtual_address_tag>;
+
+    template <typename T, typename... Ts>
+    inline constexpr bool is_any_of = (std::is_same_v<T, Ts> || ...);
+
+    template <typename T>
+    inline constexpr bool io_port_type_v = is_any_of<T, u8, u16, u32>;
 
   } // namespace types
 } // namespace kos
