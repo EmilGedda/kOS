@@ -1,4 +1,4 @@
-add_library(io STATIC
+add_kernel_library(io STATIC
     "${CMAKE_CURRENT_SOURCE_DIR}/io.cpp"    
 )
 

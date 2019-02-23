@@ -1,4 +1,4 @@
-add_library(serial EXCLUDE_FROM_ALL
+add_kernel_library(serial EXCLUDE_FROM_ALL
     "${CMAKE_CURRENT_SOURCE_DIR}/uart.cpp"
     )
 

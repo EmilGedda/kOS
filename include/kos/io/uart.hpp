@@ -6,17 +6,19 @@ namespace kos::io::serial {
 
   class UART {
 
-  public:
-    UART(u64 p) : port(reinterpret_cast<u8*>(p)) {  }
+    public:
+    UART(u64 p)
+        : port(reinterpret_cast<u8*>(p)) {
+    }
 
     void init();
     void write(u8 x);
     void set_divisor(int divisor);
-  private:
-    unsigned char * port;
-    const int baud = 115200;
-    const int divisor = 1;
 
+    private:
+    unsigned char* port;
+    const int      baud    = 115200;
+    const int      divisor = 1;
   };
 
   UART COM1(0x3F8);

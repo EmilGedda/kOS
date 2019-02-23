@@ -13,3 +13,6 @@
 [submodule "third_party/libunwind"]
 	path = third_party/libunwind
 	url = git@github.com:EmilGedda/libunwind.git
+[submodule "third_party/type_safe"]
+	path = third_party/type_safe
+	url = https://github.com/foonathan/type_safe

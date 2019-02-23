@@ -5,6 +5,7 @@
 #include <kos/io/uart.hpp>
 #include <kos/io/vga.hpp>
 #include <kos/mem.hpp>
+#include <kos/types.hpp>
 #include <numeric>
 #include <optional>
 
@@ -20,7 +21,10 @@ __attribute__((interrupt)) void breakpoint_handler(kos::interrupts::interrupt_ex
 namespace kos::boot {
 
   extern "C" int kmain(u32*) {
-    int dummy = 0;
+    int              dummy = 0;
+
+    physical_address p(0x12u);
+    virtual_address a(0x11u);
 
     vga << "Booting kOS... \n"
         << "Loading interrupts...\n";
@@ -28,9 +32,9 @@ namespace kos::boot {
     interrupts::idt[3].set_handler(&breakpoint_handler);
     interrupts::load_idt(interrupts::idt);
 
-    vga << "Triggering interrupt...\n";
+    vga << "Triggering breakpoint...\n";
 
-    //__asm__ volatile("int3");
+    __asm__ volatile("int3");
 
     // try {
     //  vga << "Throwing exception...\n";
@@ -49,6 +53,7 @@ namespace kos::boot {
       char str[2] = {val, 0x00};
       return vga << str;
     });
+
     std::optional<int> opt  = 0;
     std::optional<int> opt2 = std::nullopt;
     return !opt2 ? *opt : 0;

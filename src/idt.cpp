@@ -10,7 +10,7 @@ namespace kos::interrupts {
   }
 
   void idt_entry::set_handler(interrupt_handler handler) {
-    u64 address      = reinterpret_cast<u64>(handler);
+    auto address     = reinterpret_cast<u64>(handler);
     lower_funptr     = address;
     middle_funptr    = address >> 16;
     upper_funptr     = address >> 32;

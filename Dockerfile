@@ -15,7 +15,9 @@ RUN pacman -Syu --noconfirm \
         python              \
         libisoburn
 
-WORKDIR /root
+ENV CC clang
+ENV CXX clang++
+WORKDIR /kos
 ENTRYPOINT /bin/bash
 
 

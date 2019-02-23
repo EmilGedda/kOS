@@ -17,9 +17,8 @@ namespace kos::mem {
     return 0;
   }
 
-  [[noreturn]] void abort() {
-    while (1)
-      ;
+  void abort() {
+    while (true) continue;
   }
 
   int strcmp(const char* s1, const char* s2) {

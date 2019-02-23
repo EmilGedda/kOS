@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 project(kOS C CXX)
 
+add_custom_target(stdlib)
 
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/third_party/type_safe")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 #add_definitions("-include ${CMAKE_CURRENT_BINARY_DIR}/third_party/libcxx/__generated_config -D__ELF__")
 
@@ -56,20 +59,29 @@ set(KERNEL_FLAGS --target=x86_64-pc-none-elf -std=c++2a -march=native -Os -Wall 
 
 set(LIBCXX_CONFIG "${CMAKE_CURRENT_BINARY_DIR}/third_party/libcxx/__generated_config")
 
-add_dependencies(unwind_objects cxx-generated-config)
-add_dependencies(cxxabi_objects cxx-generated-config)
+add_dependencies(cxx_abi_headers cxx-generated-config)
+add_dependencies(unwind_objects cxx_abi_headers)
+add_dependencies(unwind_static unwind_objects)
+add_dependencies(cxx_objects unwind)
+add_dependencies(cxx_static cxx_objects)
+add_dependencies(cxxabi_objects cxx_static)
+add_dependencies(cxxabi_static cxxabi_objects)
 
-target_compile_options(cxx_objects PUBLIC -fno-stack-protector -include ${LIBCXX_CONFIG})
-target_compile_options(unwind_objects PUBLIC -include ${LIBCXX_CONFIG})
-target_compile_options(cxxabi_objects PUBLIC -include ${LIBCXX_CONFIG})
+add_dependencies(stdlib cxxabi_static)
+
+target_compile_options(cxx_objects PRIVATE -fno-stack-protector -include ${LIBCXX_CONFIG})
+target_compile_options(cxx_static PRIVATE -fno-stack-protector -include ${LIBCXX_CONFIG})
+target_compile_options(unwind_static PRIVATE -include ${LIBCXX_CONFIG})
+target_compile_options(unwind_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter)
+target_compile_options(cxxabi_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter -Wno-unused-function)
 
 target_compile_definitions(cxx_static PUBLIC -D__ELF__)
+target_compile_definitions(cxx_objects PUBLIC -D__ELF__)
 target_compile_definitions(cxxabi_objects PRIVATE -D__ELF__)
 target_compile_definitions(unwind_objects PRIVATE -D__ELF__)
 
 # libkernel
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src")
-target_compile_options(kernel PUBLIC -include ${LIBCXX_CONFIG})
 
 # kmain
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/boot")
@@ -93,3 +105,4 @@ add_custom_command(
 )
 
 add_custom_target(kos_iso ALL DEPENDS "kos.iso" )
+

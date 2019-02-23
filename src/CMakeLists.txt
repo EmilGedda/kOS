@@ -1,5 +1,5 @@
 
-add_library(kernel STATIC
+add_kernel_library(kernel STATIC
     "${CMAKE_CURRENT_SOURCE_DIR}/mem.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/idt.cpp"
     )
