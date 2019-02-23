@@ -6,7 +6,7 @@ jobs:
 
     steps:
       - checkout
-      - git submodule update --init --recursive
+      - run: git submodule update --init --recursive
       - run:
           name: Generate build system
           command: mkdir build && cd build && cmake ..
