@@ -13,4 +13,4 @@ jobs:
 
       - run:
           name: Compile
-          command: make kos_iso
+          command: cd build && make kos_iso
