@@ -5,19 +5,29 @@ extern "C" {
 
 namespace kos::mem {
 
-  void *malloc(size_t size) { return 0;  }
-  void free(void *ptr) {  }
-  void *calloc(size_t nmemb, size_t size) { return 0;  }
-  int posix_memalign(void **memptr, size_t alignment, size_t size) { return 0; }
+  void* malloc(size_t size) {
+    return 0;
+  }
+  void free(void* ptr) {
+  }
+  void* calloc(size_t nmemb, size_t size) {
+    return 0;
+  }
+  int posix_memalign(void** memptr, size_t alignment, size_t size) {
+    return 0;
+  }
 
-  [[noreturn]] void abort() { while(1); }
+  [[noreturn]] void abort() {
+    while (1)
+      ;
+  }
 
-  int strcmp(const char *s1, const char *s2) { 
-    while(*s1 && *s1 != *s2) {
+  int strcmp(const char* s1, const char* s2) {
+    while (*s1 && *s1 != *s2) {
       s1++;
       s2++;
     }
-    return *(const unsigned char *)s1 - *(const unsigned char *)s2;
+    return *(const unsigned char*) s1 - *(const unsigned char*) s2;
   }
 
   using namespace kos::types;
@@ -28,42 +38,36 @@ namespace kos::mem {
     auto* _src = reinterpret_cast<const char*>(src);
     char* _dst = reinterpret_cast<char*>(dst);
 
-    while (n-- > 0)
-      *_dst++ = *_src++;
+    while (n-- > 0) *_dst++ = *_src++;
 
     return dst;
   }
 
   void* memset(void* dst, int c, size_t n) {
-    char* _dst = reinterpret_cast<char*>(dst);
-    char value = c; 
+    char* _dst  = reinterpret_cast<char*>(dst);
+    char  value = c;
 
-    while(n-- > 0)
-      *_dst++ = value;
+    while (n-- > 0) *_dst++ = value;
 
     return dst;
   }
 
-  void *memmove(void *dest, const void *src, size_t count)
-  {
-      auto d = static_cast<char*>(dest);
-      auto s = static_cast<char const*>(src);
+  void* memmove(void* dest, const void* src, size_t count) {
+    auto d = static_cast<char*>(dest);
+    auto s = static_cast<char const*>(src);
 
-      // If s and d are in distinct objects, the comparison is
-      // unspecified behaviour, but either branch will work.
-      if (s < d) {
-          s += count;
-          d += count;
-          while (count--)
-              *--d = *--s;
-      } else {
-          while (count--)
-              *d++ = *s++;
-      }
+    // If s and d are in distinct objects, the comparison is
+    // unspecified behaviour, but either branch will work.
+    if (s < d) {
+      s += count;
+      d += count;
+      while (count--) *--d = *--s;
+    } else {
+      while (count--) *d++ = *s++;
+    }
 
-      return dest;
+    return dest;
   }
 
 } // namespace kos::mem
-
 }
