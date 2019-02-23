@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: gedda/kos:devenv
+
+    steps:
+    - checkout
+
+    - run:
+        name: Generate build system
+        command: mkdir build && cd build && cmake ..
+
+    - run:
+        name: Compile
+        command: make kos_iso
