@@ -2,15 +2,15 @@ version: 2
 jobs:
   build:
     docker:
-    - image: gedda/kos:devenv
+      - image: gedda/kos:devenv
 
     steps:
-    - checkout
+      - checkout
+      - git submodule update --init --recursive
+      - run:
+          name: Generate build system
+          command: mkdir build && cd build && cmake ..
 
-    - run:
-        name: Generate build system
-        command: mkdir build && cd build && cmake ..
-
-    - run:
-        name: Compile
-        command: make kos_iso
+      - run:
+          name: Compile
+          command: make kos_iso
