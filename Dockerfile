@@ -3,6 +3,7 @@ FROM archlinux/base:latest as dev
 MAINTAINER Emil Gedda
 
 RUN pacman -Syu --noconfirm \
+        openssh             \
         cmake               \
         clang               \
         git                 \
