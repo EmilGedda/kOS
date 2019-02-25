@@ -55,7 +55,7 @@ option(LIBUNWIND_ENABLE_SHARED "Build libunwind as a shared library." OFF)
 set(LIBUNWIND_TARGET_TRIPLE "x86_64-pc-none-elf -DNDEBUG -D_LIBUNWIND_IS_BAREMETAL" CACHE STRING "")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/third_party/libunwind")
 
-set(KERNEL_FLAGS --target=x86_64-pc-none-elf -std=c++2a -march=native -Os -Wall -Wextra -Weffc++ -ffreestanding -nostdlib -mno-sse -g)
+set(KERNEL_FLAGS --target=x86_64-pc-none-elf -std=c++2a -march=native -Os -Wall -Wextra -Weffc++ -nostdlib -mno-sse -g)
 
 set(LIBCXX_CONFIG "${CMAKE_CURRENT_BINARY_DIR}/third_party/libcxx/__generated_config")
 
