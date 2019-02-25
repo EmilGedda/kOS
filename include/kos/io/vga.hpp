@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <kos/mem.hpp>
 #include <stddef.h>
+#include <string_view>
 
 namespace kos::io {
 
@@ -88,6 +89,10 @@ namespace kos::io {
     void enable_cursor() {
     }
 
+    void clear_screen() {
+      std::fill(begin(), end(), ' ');
+    }
+
     void update_cursor() {
       move_cursor(offset);
     }
@@ -97,14 +102,15 @@ namespace kos::io {
   };
 
   template <size_t ptr>
-  constexpr vga_buffer<ptr>& operator<<(vga_buffer<ptr>& vga, const char* str) {
+  constexpr vga_buffer<ptr>& operator<<(vga_buffer<ptr>& vga, const std::string_view& str) {
     unsigned short color = vga.background << 4 | vga.foreground;
-    while (*str != '\0') vga.write(color << 8 | *str++);
+    for(const auto c: str)
+    	vga.write(color << 8 | c);
     vga.update_cursor();
     return vga;
   }
 
-  template <size_t ptr, typename T>
+  template <size_t ptr, typename T, typename = typename std::enable_if_t<!std::is_same_v<T, char>>>
   constexpr vga_buffer<ptr>& operator<<(vga_buffer<ptr>& vga, const T* obj) {
     unsigned short color      = vga.background << 4 | vga.foreground;
     u64            address    = reinterpret_cast<u64>(obj);
@@ -119,7 +125,8 @@ namespace kos::io {
       length++;
     }
 
-    for (auto i = length - 1; i >= 0; i--) vga.write(color << 8 | buffer[i]);
+    for (auto i = length - 1; i >= 0; i--)
+      vga.write(color << 8 | buffer[i]);
 
     vga.update_cursor();
     return vga;

@@ -25,6 +25,7 @@ namespace kos::boot {
 
     physical_address p(0x12u);
     virtual_address  a(0x11u);
+    vga.clear_screen();
 
     vga << "Booting kOS... \n"
         << "Loading interrupts...\n";

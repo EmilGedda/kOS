@@ -8,10 +8,19 @@ namespace kos::mem {
   void* malloc(size_t size) {
     return 0;
   }
+
   void free(void* ptr) {
   }
+
   void* calloc(size_t nmemb, size_t size) {
     return 0;
+  }
+
+  size_t strlen(const char *str) {
+    size_t len = 0;
+    while(*str++ != '\0')
+      len++;
+    return len;
   }
   int posix_memalign(void** memptr, size_t alignment, size_t size) {
     return 0;
