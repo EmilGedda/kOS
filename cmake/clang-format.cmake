@@ -2,9 +2,9 @@
 
 
 file(GLOB_RECURSE ALL_SOURCE_FILES 
-	${CMAKE_CURRENT_SOURCE_DIR}/../src/*.cpp 
-	${CMAKE_CURRENT_SOURCE_DIR}/../src/*.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/../include/*.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../src/**/*.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/../src/**/*.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../include/**/*.hpp
 	)
 find_program(CLANG_FORMAT NAMES "clang-format")
 if(NOT CLANG_FORMAT)

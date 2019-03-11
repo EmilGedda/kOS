@@ -32,31 +32,62 @@ namespace kos {
 
     namespace ts = type_safe;
 
-    template <typename Tag>
+    template <typename Tag, typename T>
     struct pointer
-        : ts::strong_typedef<pointer<Tag>, u64>
-        , ts::strong_typedef_op::equality_comparison<pointer<Tag>>
-        , ts::strong_typedef_op::mixed_equality_comparison<pointer<Tag>, u64>
-        , ts::strong_typedef_op::bitmask<pointer<Tag>>
-        , ts::strong_typedef_op::bitshift<pointer<Tag>, u64>
-        , ts::strong_typedef_op::addition<pointer<Tag>>
-        , ts::strong_typedef_op::mixed_addition<pointer<Tag>, u64>
-        , ts::strong_typedef_op::subtraction<pointer<Tag>>
-        , ts::strong_typedef_op::mixed_subtraction<pointer<Tag>, u64>
-        , ts::strong_typedef_op::increment<pointer<Tag>>
-        , ts::strong_typedef_op::decrement<pointer<Tag>> {
-      using ts::strong_typedef<pointer<Tag>, u64>::strong_typedef;
+        : ts::strong_typedef<pointer<Tag, T>, u64>
+        , ts::strong_typedef_op::equality_comparison<pointer<Tag, T>>
+        , ts::strong_typedef_op::mixed_equality_comparison<pointer<Tag, T>, u64>
+        , ts::strong_typedef_op::bitmask<pointer<Tag, T>>
+        , ts::strong_typedef_op::bitshift<pointer<Tag, T>, u64>
+        , ts::strong_typedef_op::addition<pointer<Tag, T>>
+        , ts::strong_typedef_op::mixed_addition<pointer<Tag, T>, u64>
+        , ts::strong_typedef_op::subtraction<pointer<Tag, T>>
+        , ts::strong_typedef_op::mixed_subtraction<pointer<Tag, T>, u64>
+        , ts::strong_typedef_op::increment<pointer<Tag, T>>
+        , ts::strong_typedef_op::decrement<pointer<Tag, T>> {
+      using ts::strong_typedef<pointer<Tag, T>, u64>::strong_typedef;
 
       explicit operator bool() const noexcept {
         return static_cast<u64>(*this) != 0;
       }
+
+      T& operator* () {
+        return *static_cast<std::remove_cvref_t<T>*>(*this);
+      }
+
+      T* operator-> () {
+        return static_cast<T*>(*this);
+      }
+    };
+
+    template <typename Tag>
+    struct pointer<Tag, void>
+        : ts::strong_typedef<pointer<Tag, void>, u64>
+        , ts::strong_typedef_op::equality_comparison<pointer<Tag, void>>
+        , ts::strong_typedef_op::mixed_equality_comparison<pointer<Tag, void>, u64>
+        , ts::strong_typedef_op::bitmask<pointer<Tag, void>>
+        , ts::strong_typedef_op::bitshift<pointer<Tag, void>, u64>
+        , ts::strong_typedef_op::addition<pointer<Tag, void>>
+        , ts::strong_typedef_op::mixed_addition<pointer<Tag, void>, u64>
+        , ts::strong_typedef_op::subtraction<pointer<Tag, void>>
+        , ts::strong_typedef_op::mixed_subtraction<pointer<Tag, void>, u64>
+        , ts::strong_typedef_op::increment<pointer<Tag, void>>
+        , ts::strong_typedef_op::decrement<pointer<Tag, void>> {
+      using ts::strong_typedef<pointer<Tag, void>, u64>::strong_typedef;
+
+      explicit operator bool() const noexcept {
+        return static_cast<u64>(*this) != 0;
+      }
+
     };
 
     struct physical_address_tag;
     struct virtual_address_tag;
 
-    using physical_address = pointer<physical_address_tag>;
-    using virtual_address  = pointer<virtual_address_tag>;
+    template<typename T = void>
+    using physical_address = pointer<physical_address_tag, T>;
+    template<typename T = void>
+    using virtual_address  = pointer<virtual_address_tag, T>;
 
     template <typename T, typename... Ts>
     inline constexpr bool is_any_of = (std::is_same_v<T, Ts> || ...);

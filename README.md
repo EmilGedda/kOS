@@ -34,8 +34,8 @@ Docker has been set up as an optional build environment helper, if you don't hav
 The Dockerfile consists of multi-stage builds depending on what you want to do.
 To simply set up and enter a build environment you may run this in your terminal:
 ```
-$ docker build -v.:/kos --target dev -t kos:dev . 
-$ docker run -it kos:dev
+$ docker build --target dev -t kos:dev . 
+$ docker run --rm -v $PWD:/kos -it kos:dev
 ````
 
 To compile once and get the kos.iso out of docker we need to create a temporary container to extract the iso from the image:
