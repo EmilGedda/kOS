@@ -84,10 +84,14 @@ namespace kos {
     struct physical_address_tag;
     struct virtual_address_tag;
 
+    template<typename T>
+    using physical_pointer = pointer<physical_address_tag, T>;
+
     template<typename T = void>
-    using physical_address = pointer<physical_address_tag, T>;
-    template<typename T = void>
-    using virtual_address  = pointer<virtual_address_tag, T>;
+    using virtual_pointer = pointer<virtual_address_tag, T>;
+
+    using physical_address = physical_pointer<void>;
+    using virtual_address  = virtual_pointer<void>;
 
     template <typename T, typename... Ts>
     inline constexpr bool is_any_of = (std::is_same_v<T, Ts> || ...);

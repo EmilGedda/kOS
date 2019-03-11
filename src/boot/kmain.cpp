@@ -23,8 +23,8 @@ namespace kos::boot {
   extern "C" int kmain(u32*) {
     int dummy = 0;
 
-    physical_address<> p(0x12u);
-    virtual_address<> a(0x11u);
+    physical_address p(0x12u);
+    virtual_address a(0x11u);
     vga.clear_screen();
 
     vga << "Booting kOS... \n"

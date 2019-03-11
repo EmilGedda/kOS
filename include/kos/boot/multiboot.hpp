@@ -7,7 +7,7 @@ namespace kos::multiboot {
 
 #pragma pack(push, 1)
   struct memory_area {
-    virtual_address<> base_address;
+    virtual_address base_address;
     u64 length;
     u32 type;
     u32 reserved;
@@ -17,7 +17,7 @@ namespace kos::multiboot {
     struct memory_map_iterator_impl {
       using value_type      = std::conditional_t<Const, const memory_area, memory_area>;
       using difference_type = std::ptrdiff_t;
-      using pointer         = std::conditional_t<Const, const virtual_address<memory_area>, virtual_address<memory_area>>;
+      using pointer         = std::conditional_t<Const, const virtual_pointer<memory_area>, virtual_pointer<memory_area>>;
       using reference       = memory_area&;
 
       bool operator!=(const memory_map_iterator_impl<Const>& rhs) const noexcept;
@@ -68,10 +68,10 @@ namespace kos::multiboot {
   };
 
   struct boot_information {
-    virtual_address<boot_information_inner> multiboot;
+    virtual_pointer<boot_information_inner> multiboot;
     u64 offset;
 
-    boot_information(virtual_address<boot_information_inner>, u64 offset = 0);
+    boot_information(virtual_pointer<boot_information_inner>, u64 offset = 0);
     auto start_address()  const noexcept -> u64;
     auto end_address()    const noexcept -> u64;
     auto total_size()     const noexcept -> u64;
