@@ -18,6 +18,7 @@ header_end:
 section .text
 global _start
 extern long_mode
+global .no_multiboot
 bits 32
 _start:
     mov esp, stack_top

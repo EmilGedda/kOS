@@ -62,21 +62,17 @@ set(LIBCXX_CONFIG "${CMAKE_CURRENT_BINARY_DIR}/third_party/libcxx/__generated_co
 add_dependencies(cxx_abi_headers cxx-generated-config)
 add_dependencies(unwind_objects cxx_abi_headers)
 add_dependencies(unwind_static unwind_objects)
-add_dependencies(cxx_objects unwind)
-add_dependencies(cxx_static cxx_objects)
 add_dependencies(cxxabi_objects cxx_static)
 add_dependencies(cxxabi_static cxxabi_objects)
 
 add_dependencies(stdlib cxxabi_static)
 
-target_compile_options(cxx_objects PRIVATE -fno-stack-protector -include ${LIBCXX_CONFIG})
 target_compile_options(cxx_static PRIVATE -fno-stack-protector -include ${LIBCXX_CONFIG})
 target_compile_options(unwind_static PRIVATE -include ${LIBCXX_CONFIG})
 target_compile_options(unwind_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter)
 target_compile_options(cxxabi_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter -Wno-unused-function)
 
-target_compile_definitions(cxx_static PUBLIC -D__ELF__)
-target_compile_definitions(cxx_objects PUBLIC -D__ELF__)
+target_compile_definitions(cxx_static PRIVATE -D__ELF__)
 target_compile_definitions(cxxabi_objects PRIVATE -D__ELF__)
 target_compile_definitions(unwind_objects PRIVATE -D__ELF__)
 
@@ -97,12 +93,13 @@ add_custom_command(
 
 add_custom_target(kos_elf DEPENDS "kos.elf")
 
+# Only creates a MBR ISO for now
 add_custom_command(
     OUTPUT "kos.iso"
     COMMAND cp -f kos.elf ../iso/boot/kos.elf
-    COMMAND grub-mkrescue -o kos.iso ../iso
+    COMMAND grub-mkrescue -o kos.iso ../iso --install-modules='multiboot2 normal' --fonts= --themes= --locales=
     DEPENDS "kos.elf"
 )
 
-add_custom_target(kos_iso ALL DEPENDS "kos.iso" )
+add_custom_target(iso ALL DEPENDS "kos.iso" )
 
