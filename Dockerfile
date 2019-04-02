@@ -27,7 +27,7 @@ WORKDIR /kos
 COPY . /kos
 RUN mkdir build \
         && cd build \
-        && CC=clang CXX=clang++ cmake .. \
+        && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. \
         && make cxx-generated-config \
         && make iso
 ENTRYPOINT /bin/bash

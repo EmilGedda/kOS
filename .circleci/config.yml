@@ -9,8 +9,8 @@ jobs:
       - run: git submodule update --init --recursive
       - run:
           name: Generate build system
-          command: mkdir build && cd build && cmake ..
+          command: mkdir build && cd build && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 
       - run:
           name: Compile
-          command: cd build && make kos_iso
+          command: cd build && make iso
