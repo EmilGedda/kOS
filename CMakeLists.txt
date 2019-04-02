@@ -62,18 +62,17 @@ set(LIBCXX_CONFIG "${CMAKE_CURRENT_BINARY_DIR}/third_party/libcxx/__generated_co
 add_dependencies(cxx_abi_headers cxx-generated-config)
 add_dependencies(unwind_objects cxx_abi_headers)
 add_dependencies(unwind_static unwind_objects)
-add_dependencies(cxxabi_objects cxx_static)
-add_dependencies(cxxabi_static cxxabi_objects)
+add_dependencies(cxxabi_static_objects cxx_static)
 
 add_dependencies(stdlib cxxabi_static)
 
 target_compile_options(cxx_static PRIVATE -fno-stack-protector -include ${LIBCXX_CONFIG})
 target_compile_options(unwind_static PRIVATE -include ${LIBCXX_CONFIG})
 target_compile_options(unwind_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter)
-target_compile_options(cxxabi_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter -Wno-unused-function)
+target_compile_options(cxxabi_static_objects PRIVATE -include ${LIBCXX_CONFIG} -Wno-unused-parameter -Wno-unused-function)
 
 target_compile_definitions(cxx_static PRIVATE -D__ELF__)
-target_compile_definitions(cxxabi_objects PRIVATE -D__ELF__)
+target_compile_definitions(cxxabi_static_objects PRIVATE -D__ELF__)
 target_compile_definitions(unwind_objects PRIVATE -D__ELF__)
 
 # libkernel
