@@ -10,7 +10,6 @@ jobs:
       - run:
           name: Generate build system
           command: mkdir build && cd build && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-
       - run:
           name: Compile
-          command: cd build && make iso
+          command: cd build && make -j$(nproc) iso
