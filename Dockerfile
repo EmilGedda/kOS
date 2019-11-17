@@ -7,7 +7,7 @@ RUN pacman -Syu --noconfirm \
         cmake               \
         clang               \
         git                 \
-        make                \
+        ninja               \
         binutils            \
         gcc                 \
         nasm                \
@@ -27,9 +27,8 @@ WORKDIR /kos
 COPY . /kos
 RUN mkdir build \
         && cd build \
-        && cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. \
-        && make cxx-generated-config \
-        && make iso
+        && cmake -G Ninja .. \
+        && ninja iso | tr -d '\r'
 ENTRYPOINT /bin/bash
 
 
