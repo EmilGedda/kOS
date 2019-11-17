@@ -1,4 +1,8 @@
-build/*
+build/
+bin/
+pdf/
+.clangd/
+
 iso/boot/kos.elf
 .vs
 compile_commands.json

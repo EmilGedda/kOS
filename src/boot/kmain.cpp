@@ -1,11 +1,13 @@
-#include <algorithm>
-#include <array>
 #include <kos/boot/multiboot.hpp>
 #include <kos/idt.hpp>
+#include <kos/instructions/cpuid.hpp>
 #include <kos/io/uart.hpp>
 #include <kos/io/vga.hpp>
 #include <kos/mem.hpp>
 #include <kos/types.hpp>
+
+#include <algorithm>
+#include <array>
 #include <numeric>
 #include <optional>
 
@@ -23,8 +25,6 @@ namespace kos::boot {
   extern "C" int kmain(u32*) {
     int dummy = 0;
 
-    physical_address p(0x12u);
-    virtual_address a(0x11u);
     vga.clear_screen();
 
     vga << "Booting kOS... \n"
@@ -49,15 +49,15 @@ namespace kos::boot {
     vga << "kmain entry point: " << reinterpret_cast<u64*>(&kmain) << "\n";
     vga << "Stack address entry point: " << reinterpret_cast<u64*>(&dummy) << "\n";
 
-    std::array<char, 3> tmp = {'!', '!', '!'};
-    std::for_each(std::begin(tmp), std::end(tmp), [](auto val) {
-      char str[2] = {val, 0x00};
-      return vga << str;
-    });
 
-    std::optional<int> opt  = 0;
-    std::optional<int> opt2 = std::nullopt;
-    return !opt2 ? *opt : 0;
+    auto vendor = cpuid::vendor_string();
+    char s[13];
+
+    std::copy(vendor.begin(), vendor.end(), s);
+
+    vga << "Vendor string: " << s;
+
+    return 0;
   }
 
 } // namespace kos::boot
