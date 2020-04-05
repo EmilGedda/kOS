@@ -1,6 +1,6 @@
 build/
 bin/
-pdf/
+.local/
 .clangd/
 
 iso/boot/kos.elf

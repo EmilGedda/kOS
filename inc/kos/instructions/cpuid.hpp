@@ -40,15 +40,20 @@ namespace kos::cpuid {
     }
   }
 
-  auto vendor_string() -> std::array<u8, 12> {
+  enum cpu_vendor {
+    intel,
+    amd
+  };
+
+  auto vendor_string() -> std::array<char, 13> { // 12 + 1 for null terminator
     auto r = call(cpuid_requests::vendor_string);
     auto ebx = bswap(r.ebx);
     auto ecx = bswap(r.ecx);
     auto edx = bswap(r.edx);
-    return { 
-      static_cast<u8>(ebx >> 24), static_cast<u8>(ebx >> 16), static_cast<u8>(ebx >> 8), static_cast<u8>(ebx),
-      static_cast<u8>(edx >> 24), static_cast<u8>(edx >> 16), static_cast<u8>(edx >> 8), static_cast<u8>(edx),
-      static_cast<u8>(ecx >> 24), static_cast<u8>(ecx >> 16), static_cast<u8>(ecx >> 8), static_cast<u8>(ecx)
+    return {
+      static_cast<char>(ebx >> 24), static_cast<char>(ebx >> 16), static_cast<char>(ebx >> 8), static_cast<char>(ebx),
+      static_cast<char>(edx >> 24), static_cast<char>(edx >> 16), static_cast<char>(edx >> 8), static_cast<char>(edx),
+      static_cast<char>(ecx >> 24), static_cast<char>(ecx >> 16), static_cast<char>(ecx >> 8), static_cast<char>(ecx)
     };
   }
 

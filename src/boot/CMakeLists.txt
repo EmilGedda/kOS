@@ -1,15 +1,18 @@
-enable_language(ASM_NASM)
-set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
-set(LINKER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/linker.ld" CACHE STRING "The linker-file specifying the ELF layout")
+add_executable(kboot bootloader.cpp)
+target_link_libraries(kboot uefi)
 
-add_kernel_library(kmain STATIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/kmain.cpp"
-)
+target_compile_options(kboot PRIVATE
+    -target x86_64-pc-win32-coff
+    -fno-stack-protector
+    -fshort-wchar
+    -mno-red-zone)
 
-target_compile_options(kmain PUBLIC ${KERNEL_FLAGS})
-target_link_libraries(kmain PUBLIC kernel)
+set(CMAKE_CXX_LINK_EXECUTABLE "lld-link <FLAGS> <CMAKE_CXX_LINK_FLAGS> <LINK_FLAGS> <OBJECTS> -out:<TARGET> <LINK_LIBRARIES>")
 
-add_kernel_library(boot 
-    "${CMAKE_CURRENT_SOURCE_DIR}/boot.asm"
-    "${CMAKE_CURRENT_SOURCE_DIR}/longmode.asm"
-) 
+target_link_options(kboot PRIVATE
+    -subsystem:efi_application
+    -nodefaultlib
+    -dll
+    -entry:efi_main)
+
+set_target_properties(kboot PROPERTIES OUTPUT_NAME "BOOTX64.EFI")

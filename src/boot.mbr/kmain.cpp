@@ -10,6 +10,7 @@
 #include <array>
 #include <numeric>
 #include <optional>
+#include <string_view>
 
 using namespace kos::io;
 using namespace kos::io::serial;
@@ -35,7 +36,7 @@ namespace kos::boot {
 
     vga << "Triggering breakpoint...\n";
 
-    __asm__ volatile("int3");
+    asm volatile("int3");
 
     // try {
     //  vga << "Throwing exception...\n";
@@ -51,11 +52,7 @@ namespace kos::boot {
 
 
     auto vendor = cpuid::vendor_string();
-    char s[13];
-
-    std::copy(vendor.begin(), vendor.end(), s);
-
-    vga << "Vendor string: " << s;
+    vga << "Vendor string: " << std::string_view{vendor.begin(), vendor.size()};
 
     return 0;
   }
