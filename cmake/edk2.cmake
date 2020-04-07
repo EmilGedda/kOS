@@ -1,8 +1,6 @@
 include(ExternalProject)
 find_package(Git REQUIRED)
 
-message(INFO "Downloading tianocore/edk2 uefi library...")
-
 ExternalProject_Add(
     edk2
     PREFIX ${CMAKE_BINARY_DIR}/edk2
