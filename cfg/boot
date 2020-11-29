@@ -1,0 +1,7 @@
+debug:      true
+verbosity:  5
+modules:    []
+initramfs:
+    - /boot/EFI/kOS/initramfs.tar.gz
+kernel:     /boot/EFI/kOS/vmkoz
+root:       /dev/disk/by-uuid/1AA3-9CA4
